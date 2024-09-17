@@ -1,0 +1,103 @@
+/* Datepicker container */
+.react-datepicker {
+  font-family: "Arial", sans-serif; /* Change the font */
+  border: 1px solid #007bff; /* Custom border */
+  border-radius: 8px; /* Rounded corners */
+}
+
+/* Input field */
+.react-datepicker__input-container input {
+  padding: 10px;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  width: 100%;
+  font-size: 16px;
+}
+
+/* Calendar header */
+.react-datepicker__header {
+  background-color: #3b97fa; /* Custom background color */
+  border-bottom: none;
+  color: #fff;
+}
+
+.react-datepicker__day--in-range {
+  background-color: #3b97fa;
+  color: white;
+}
+.react-datepicker__current-month {
+  color: #ffffff; /* Text color */
+}
+
+/* Day cells */
+.react-datepicker__day {
+  color: #333; /* Text color */
+  padding: 3px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.react-datepicker__day-name {
+  color: #ffffff; /* Text color */
+}
+
+.react-datepicker__day:hover {
+  background-color: #54a6ff; /* Hover effect */
+}
+
+/* Selected day */
+.react-datepicker__day--selected {
+  background-color: #007bff; /* Selected day background */
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* Today */
+.react-datepicker__day--today {
+  font-weight: normal;
+  color: #000000;
+}
+
+/* Disabled days */
+.react-datepicker__day--disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Navigation buttons */
+.react-datepicker__navigation {
+  top: 10px;
+}
+
+.react-datepicker__navigation-icon::before {
+  border-color: #007bff; /* Arrow color */
+}
+
+.react-datepicker__month-dropdown {
+  background-color: #0775f7;
+}
+
+.react-datepicker__year-dropdown {
+  background-color: #0775f7;
+}
+
+/* Time picker (if using time) */
+.react-datepicker__time-container .react-datepicker__time {
+  background-color: #fff;
+}
+
+.react-datepicker__time-container
+  .react-datepicker__time
+  .react-datepicker__time-box {
+  width: 100px;
+}
+
+.react-datepicker__time-list-item {
+  padding: 5px;
+  color: #333;
+}
+
+.react-datepicker__time-list-item--selected {
+  background-color: #007bff;
+  color: #fff;
+}
