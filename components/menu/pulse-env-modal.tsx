@@ -13,6 +13,7 @@ interface IProps {
 
 const PulsModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
   const [clientName, setClientName] = useState("");
+  const [clientAccountId, setClientAccountId] = useState("");
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [installation, setInstallation] = useState("");
@@ -23,6 +24,7 @@ const PulsModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
 
   useEffect(() => {
     setClientName(client.clientName);
+    setClientAccountId(client.clientAccountId);
     setUsername(client.userName);
     setPassword(client.password);
     setInstallation(client.installation);
@@ -30,6 +32,7 @@ const PulsModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
     onUpdateClient({
       id: client.id,
       clientName: client.clientName,
+      clientAccountId: client.clientAccountId,
       newAccount: false,
     });
   }, []);
@@ -48,6 +51,9 @@ const PulsModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
     if (clientName === "") {
       setErrorMessage("Please add client name.");
       return;
+    } else if (clientAccountId === "") {
+      setErrorMessage("Please add client account id.");
+      return;
     } else {
       if (userName === "" || password === "" || installation === "") {
         setErrorMessage("Please provide information in all fields.");
@@ -64,6 +70,7 @@ const PulsModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
             onUpdateClient({
               id: client.id,
               clientName,
+              clientAccountId,
               userName,
               password,
               installation,
@@ -117,6 +124,10 @@ const PulsModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
       setClientName(e.target.value);
     }
 
+    if (e.target.name === "clientAccountId") {
+      setClientAccountId(e.target.value);
+    }
+
     if (e.target.name === "userName") {
       setUsername(e.target.value);
     }
@@ -166,23 +177,25 @@ const PulsModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
               <span className="sr-only">Close modal</span>
             </button>
           </div>
-          <div className="m-5 flex justify-center items-center">
-            <svg
-              className="h-6 w-6 text-blue-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              />
-            </svg>
-            <span className="block ml-1 text-sm text-blue-500 dark:text-white">
-              Client Name:
-            </span>
+          <div className="m-5 flex justify-between items-center">
+            <div className="flex">
+              <svg
+                className="h-6 w-6 text-blue-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+              <span className="block ml-1 text-sm text-blue-500 dark:text-white">
+                Client Name:
+              </span>
+            </div>
             <div className="">
               <input
                 type="text"
@@ -190,6 +203,38 @@ const PulsModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
                 id="name"
                 disabled={client.clientName === DEFAULT_ACCOUNT ? true : false}
                 value={clientName}
+                onChange={handleChange}
+                className="text-blue-500 ml-2 rounded border border-gray-300"
+                placeholder=""
+              />
+            </div>
+          </div>
+          <div className="m-5 flex justify-between items-center">
+            <div className="flex">
+              <svg
+                className="h-6 w-6 text-blue-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+              <span className="block ml-1 text-sm text-blue-500 dark:text-white">
+                Account ID:
+              </span>
+            </div>
+            <div className="">
+              <input
+                type="text"
+                name="clientAccountId"
+                id="name"
+                disabled={client.clientName === DEFAULT_ACCOUNT ? true : false}
+                value={clientAccountId}
                 onChange={handleChange}
                 className="text-blue-500 ml-2 rounded border border-gray-300"
                 placeholder=""

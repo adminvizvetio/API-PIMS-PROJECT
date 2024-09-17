@@ -18,6 +18,7 @@ interface IProps {
 
 const EzyVetModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
   const [clientName, setClientName] = useState("");
+  const [clientAccountId, setClientAccountId] = useState("");
   const [partnerId, setPartnerId] = useState("");
   const [clientId, setClientId] = useState("");
   const [clientSecret, setClientSecret] = useState("");
@@ -32,6 +33,7 @@ const EzyVetModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
 
   useEffect(() => {
     setClientName(client.clientName);
+    setClientAccountId(client.clientAccountId);
     setPartnerId(client.partnerId);
     setClientId(client.clientId);
     setClientSecret(client.clientSecret);
@@ -43,6 +45,7 @@ const EzyVetModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
     onUpdateClient({
       id: client.id,
       clientName: client.clientName,
+      clientAccountId: client.clientAccountId,
       newAccount: false,
     });
   }, [client]);
@@ -62,6 +65,10 @@ const EzyVetModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
 
     if (clientName === "") {
       setErrorMessage("Please add client name.");
+
+      return;
+    } else if (clientAccountId === "") {
+      setErrorMessage("Please add client account id.");
 
       return;
     } else {
@@ -89,6 +96,7 @@ const EzyVetModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
             onUpdateClient({
               id: client.id,
               clientName,
+              clientAccountId,
               clientId,
               clientSecret,
               grantType,
@@ -143,6 +151,10 @@ const EzyVetModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
   const handleChange = (e: any) => {
     if (e.target.name === "clientName") {
       setClientName(e.target.value);
+    }
+
+    if (e.target.name === "clientAccountId") {
+      setClientAccountId(e.target.value);
     }
 
     if (e.target.name === "partnerId") {
@@ -205,23 +217,25 @@ const EzyVetModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
               <span className="sr-only">Close modal</span>
             </button>
           </div>
-          <div className="m-5 md:flex justify-center items-center">
-            <svg
-              className="h-6 w-6 text-blue-500 float-left"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              />
-            </svg>
-            <span className="block ml-1 text-sm text-blue-500 dark:text-white">
-              Client Name:
-            </span>
+          <div className="m-5 md:flex justify-between items-center">
+            <div className="flex ml-5">
+              <svg
+                className="h-6 w-6 text-blue-500 float-left"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+              <span className="block ml-1 text-sm text-blue-500 dark:text-white">
+                Client Name:
+              </span>
+            </div>
             <div className="">
               <input
                 type="text"
@@ -229,6 +243,39 @@ const EzyVetModal: FC<IProps> = ({ onClose, client, onUpdateClient }) => {
                 id="name"
                 disabled={client.clientName === DEFAULT_ACCOUNT ? true : false}
                 value={clientName}
+                onChange={handleChange}
+                className="text-blue-500 ml-2 rounded border border-gray-300"
+                placeholder=""
+              />
+            </div>
+          </div>
+          <div className="m-5 md:flex justify-between items-center">
+            <div className="flex ml-5">
+              <svg
+                className="h-6 w-6 text-blue-500 float-left"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                {" "}
+                <line x1="18" y1="20" x2="18" y2="10" />{" "}
+                <line x1="12" y1="20" x2="12" y2="4" />{" "}
+                <line x1="6" y1="20" x2="6" y2="14" />
+              </svg>
+              <span className="block ml-1 text-sm text-blue-500 dark:text-white">
+                Account ID:
+              </span>
+            </div>
+            <div className="">
+              <input
+                type="text"
+                name="clientAccountId"
+                id="accountId"
+                disabled={client.clientName === DEFAULT_ACCOUNT ? true : false}
+                value={clientAccountId}
                 onChange={handleChange}
                 className="text-blue-500 ml-2 rounded border border-gray-300"
                 placeholder=""

@@ -53,6 +53,7 @@ export default function PulseListManager() {
           {
             id,
             clientName: inputValue,
+            clientAccountId: "",
             userName: "",
             password: "",
             installation: "",
@@ -66,6 +67,7 @@ export default function PulseListManager() {
         setSelectedClient({
           id,
           clientName: inputValue,
+          clientAccountId: "",
           userName: "",
           password: "",
           installation: "",

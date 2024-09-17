@@ -58,6 +58,7 @@ export default function EzyListManager() {
             id,
             clientName: inputValue,
             clientId: "",
+            clientAccountId: "",
             clientSecret: "",
             grantType: "",
             partnerId: "",
@@ -74,6 +75,7 @@ export default function EzyListManager() {
         setSelectedClient({
           id,
           clientName: inputValue,
+          clientAccountId: "",
           clientId: "",
           clientSecret: "",
           grantType: "",

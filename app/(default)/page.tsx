@@ -17,7 +17,7 @@ import {
   defaultEzyAccounts,
   defaultPulseAccounts,
   getDateTimeString,
-  msToTime
+  msToTime,
 } from "../../utils/utils";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -97,6 +97,8 @@ import {
   STORAGE_PULSE_ACCOUNTS,
   THROW_APP_STOP,
   STORAGE_EZY_ENV_FILTER_INVOICELINES,
+  STORAGE_PULSE_ENV_ACCOUNT_ID,
+  STORAGE_EZY_ENV_ACCOUNT_ID,
 } from "@/utils/constants";
 import { itemValue } from "@/utils/utils";
 import {
@@ -364,9 +366,6 @@ export default function Home() {
 
       setClientEzyEnvAccounts(optionsEzyVetClients);
 
-      //
-      const clientObj: any = optionsEzyVetClients[0];
-
       optionsEzyVetClients = optionsEzyVetClients.map((item: any) => ({
         label: item.clientName,
         value: item.clientName,
@@ -374,55 +373,6 @@ export default function Home() {
 
       setClientEzyAccounts(optionsEzyVetClients);
       setClient(optionsEzyVetClients[0].value);
-
-      // switchClient(clientObj, EZY_VET_API)
-
-      // if (clientObj) {
-      //   localStorage.setItem(STORAGE_EZY_ENV_CLIENT_NAME, clientObj.clientName);
-      //   localStorage.setItem(STORAGE_EZY_ENV_PARTNERID, clientObj.partnerId);
-      //   localStorage.setItem(STORAGE_EZY_ENV_CLIENTID, clientObj.clientId);
-      //   localStorage.setItem(
-      //     STORAGE_EZY_ENV_CLIENTSECRET,
-      //     clientObj.clientSecret
-      //   );
-      //   localStorage.setItem(STORAGE_EZY_ENV_GRATNTYPE, clientObj.grantType);
-      //   localStorage.setItem(STORAGE_EZY_ENV_SCOPE, clientObj.scope);
-      //   localStorage.setItem(
-      //     STORAGE_EZY_INVOICE_JOIN,
-      //     clientObj.invoice_join.toString()
-      //   );
-      //   localStorage.setItem(
-      //     STORAGE_EZY_ENV_FILTER_INVOICELINES,
-      //     clientObj.filterInvoiceLines
-      //   );
-
-      //   const fetchToken = async () => {
-      //     try {
-      //       localStorage.setItem(EZY_TOKEN, "");
-      //       localStorage.setItem(EZY_TOKEN_EXPIRE_IN, "");
-      //       setMessage("");
-
-      //       const tokenSave = await saveEzyToken();
-      //       if (!tokenSave) {
-      //         setLoading(false);
-      //         updateMessage(
-      //           setMessage,
-      //           `Failed: to get token for "${optionsEzyVetClients[0].value}" client.`
-      //         );
-      //         return;
-      //       }
-      //       updateMessage(
-      //         setMessage,
-      //         `Get a new token successfully for "${optionsEzyVetClients[0].value}" client!`
-      //       );
-      //     } catch (error) {
-      //       // console.log("error to get a new token.");
-      //     }
-      //   };
-
-      //   // Call the async function
-      //   fetchToken();
-      // }
     }
   }, [localEzyAccounts]);
 
@@ -432,9 +382,6 @@ export default function Home() {
 
       setClientPulseEnvAccounts(optionsPulseClients);
 
-      //
-      const clientObj: any = optionsPulseClients[0];
-
       optionsPulseClients = optionsPulseClients.map((item: any) => ({
         label: item.clientName,
         value: item.clientName,
@@ -442,68 +389,30 @@ export default function Home() {
 
       setClientPulseAccounts(optionsPulseClients);
       setClient(optionsPulseClients[0].value);
-
-      // switchClient(clientObj, PULSE_API);
-      // if (clientObj) {
-      //   localStorage.setItem(
-      //     STORAGE_PULSE_ENV_CLIENT_NAME,
-      //     clientObj.clientName
-      //   );
-      //   localStorage.setItem(STORAGE_PULSE_ENV_USERNAME, clientObj.userName);
-      //   localStorage.setItem(STORAGE_PULSE_ENV_PASSWORD, clientObj.password);
-      //   localStorage.setItem(
-      //     STORAGE_PULSE_ENV_INSTALLATION,
-      //     clientObj.installation
-      //   );
-
-      //   const fetchToken = async () => {
-      //     try {
-      //       localStorage.setItem(PULSE_TOKEN, "");
-      //       localStorage.setItem(PULSE_TOKEN_EXPIRE_IN, "");
-      //       setMessage("");
-
-      //       const tokenSave = await savePulseToken();
-      //       if (!tokenSave) {
-      //         setLoading(false);
-      //         updateMessage(
-      //           setMessage,
-      //           `Failed: to get token for "${client}" client.`
-      //         );
-      //         return;
-      //       }
-      //       updateMessage(
-      //         setMessage,
-      //         `Get a new token successfully for "${client}" client!`
-      //       );
-      //     } catch (error) {
-      //       console.log("error to get a new token.");
-      //     }
-      //   };
-
-      //   // Call the async function
-      //   fetchToken();
-      // }
     }
   }, [localPulseAccounts]);
 
   useEffect(() => {
-    let clientObj:any;
+    let clientObj: any;
 
     if (apiUrl === EZY_VET_API) {
-      clientObj = clientEzyEnvAccounts.find((item:any)=>item.clientName === client);
+      clientObj = clientEzyEnvAccounts.find(
+        (item: any) => item.clientName === client
+      );
     }
 
     if (apiUrl === PULSE_API) {
-      clientObj = clientPulseEnvAccounts.find((item:any)=>item.clientName === client);
+      clientObj = clientPulseEnvAccounts.find(
+        (item: any) => item.clientName === client
+      );
     }
 
     switchClient(clientObj, apiUrl);
-    
   }, [apiUrl, client, clientEzyEnvAccounts, clientPulseEnvAccounts]);
 
   useEffect(() => {
     updateMessage(setMessage, `STATUS:${status}`);
-    switch(status) {
+    switch (status) {
       /* case STATUS_IDLE:
         setMetaData({
         meta: {
@@ -556,9 +465,8 @@ export default function Home() {
           return false;
         }
         updateMessage(setMessage, `Get a new token successfully!`);
-        return true
+        return true;
       }
-      
     }
     if (apiUrl === PULSE_API) {
       // console.log("pulse tokencheck");
@@ -574,16 +482,20 @@ export default function Home() {
           return false;
         }
         updateMessage(setMessage, `Get a new token successfully!`);
-        return true
+        return true;
       }
     }
-    return true
+    return true;
   };
 
   const switchClient = (clientObj: any, apiType: string) => {
     if (apiType === EZY_VET_API) {
       if (clientObj) {
         localStorage.setItem(STORAGE_EZY_ENV_CLIENT_NAME, clientObj.clientName);
+        localStorage.setItem(
+          STORAGE_EZY_ENV_ACCOUNT_ID,
+          clientObj.clientAccountId
+        );
         localStorage.setItem(STORAGE_EZY_ENV_PARTNERID, clientObj.partnerId);
         localStorage.setItem(STORAGE_EZY_ENV_CLIENTID, clientObj.clientId);
         localStorage.setItem(
@@ -636,6 +548,10 @@ export default function Home() {
           STORAGE_PULSE_ENV_CLIENT_NAME,
           clientObj.clientName
         );
+        localStorage.setItem(
+          STORAGE_PULSE_ENV_ACCOUNT_ID,
+          clientObj.clientAccountId
+        );
         localStorage.setItem(STORAGE_PULSE_ENV_USERNAME, clientObj.userName);
         localStorage.setItem(STORAGE_PULSE_ENV_PASSWORD, clientObj.password);
         localStorage.setItem(
@@ -671,7 +587,7 @@ export default function Home() {
         fetchToken();
       }
     }
-  }
+  };
 
   const handlePushToDBStatus = (e: any) => {
     setPushToDB((status) => !status);
@@ -681,19 +597,19 @@ export default function Home() {
     // e.preventDefault();
     const start = performance.now();
     let pauseTime = 0;
-    let itemsPageTotal = 0
-    let itemsTotal = 0
-    let itemsFiltered = 0
-    let itemsExisting = 0
-    let itemsNonExisting = 0
-    let itemsSaved = 0
+    let itemsPageTotal = 0;
+    let itemsTotal = 0;
+    let itemsFiltered = 0;
+    let itemsExisting = 0;
+    let itemsNonExisting = 0;
+    let itemsSaved = 0;
     let startTimeDate = new Date();
     let successPageCount = 0;
     let failPageCount = 0;
-    const showStatusMessage = () =>{
+    const showStatusMessage = () => {
       const current = performance.now();
-      const runTime = current - start - pauseTime
-      const finishTimeDate = new Date()
+      const runTime = current - start - pauseTime;
+      const finishTimeDate = new Date();
       setRunTime(runTime);
       setFinishTime(new Date());
       updateMessage(
@@ -703,7 +619,7 @@ export default function Home() {
         Start Time: ${getDateTimeString(startTimeDate)}, Run Time: ${msToTime(runTime)}, Pause Time: ${msToTime(pauseTime)}, End Time: ${getDateTimeString(finishTimeDate)}
         `
       );
-    }
+    };
     try {
       const initSubmitVariables = () => {
         setMetaData({
@@ -716,11 +632,11 @@ export default function Home() {
         setRunTime(0);
         setMessage("");
         setPushPercent(0);
-        setFinishTime(undefined)
+        setFinishTime(undefined);
         startTimeDate = new Date();
         setStartTime(startTimeDate);
-      }
-      const getEzyVetExistingIDsInDB = async()=> {
+      };
+      const getEzyVetExistingIDsInDB = async () => {
         let existIds: any[] = [];
         if (byDate === FILTER_BY_DATE_ALL) {
           const perIds = await getIds(
@@ -754,35 +670,30 @@ export default function Home() {
           setMessage,
           `Total number of items already in the database : ${existIds.length}`
         );
-        return existIds
-      }
-      const ezyVetJoinInvoiceline = async(items: any[]) =>{
+        return existIds;
+      };
+      const ezyVetJoinInvoiceline = async (items: any[]) => {
         let dbitems = [];
         const invoiceJoin =
-        itemValue(STORAGE_EZY_INVOICE_JOIN) === "true"
-          ? true
-          : false;
+          itemValue(STORAGE_EZY_INVOICE_JOIN) === "true" ? true : false;
 
         if (invoiceJoin) {
-          dbitems = await joinInvoicelineWithInvoice(
-            items,
-            setMessage
-          );
+          dbitems = await joinInvoicelineWithInvoice(items, setMessage);
         } else {
           dbitems = items;
         }
-        return dbitems
-      }
-      const handleEzyVetAPISubmit = async ()=>{
+        return dbitems;
+      };
+      const handleEzyVetAPISubmit = async () => {
         let bearer_token;
         bearer_token = `${localStorage.getItem(EZY_TOKEN)}`;
 
         // Get Ids From DB
         let existIds: any[] = [];
         if (settingCheckExistDB) {
-          existIds = await getEzyVetExistingIDsInDB()
+          existIds = await getEzyVetExistingIDsInDB();
         }
-        itemsExisting = existIds.length
+        itemsExisting = existIds.length;
         let durationTime = await handleStatusChanges();
         pauseTime = Number(pauseTime) + Number(durationTime);
 
@@ -798,8 +709,8 @@ export default function Home() {
           pageEnd,
           endpoint,
         });
-        itemsPageTotal = rspCollectParams.data.items_page_total
-        itemsTotal = rspCollectParams.data.items_total
+        itemsPageTotal = rspCollectParams.data.items_page_total;
+        itemsTotal = rspCollectParams.data.items_total;
         setMetaData({
           meta: {
             timestamp: "",
@@ -810,10 +721,9 @@ export default function Home() {
 
         // Get data by per page
         let paramsList = rspCollectParams.data.paramsList;
-        successPageCount = 0,
-        failPageCount = 0;
-        itemsSaved = 0
-        itemsFiltered = 0
+        (successPageCount = 0), (failPageCount = 0);
+        itemsSaved = 0;
+        itemsFiltered = 0;
         for (const [pageIndex, paramsItem] of paramsList.entries()) {
           // console.log("bear token", bearer_token);
           let durationTime = await handleStatusChanges();
@@ -821,7 +731,7 @@ export default function Home() {
 
           let success = false;
           let retry = RETRY_COUNT;
-          let filteredCountOneParam = 0
+          let filteredCountOneParam = 0;
           while (!success && retry) {
             let durationTime = await handleStatusChanges();
             pauseTime = Number(pauseTime) + Number(durationTime);
@@ -837,8 +747,8 @@ export default function Home() {
                   STORAGE_EZY_ENV_FILTER_INVOICELINES
                 ),
               });
-              
-              filteredCountOneParam = rspCallPage.data.items.length
+
+              filteredCountOneParam = rspCallPage.data.items.length;
               console.log("rspCall Page", rspCallPage);
               updateMessage(
                 setMessage,
@@ -846,7 +756,7 @@ export default function Home() {
               );
               // console.log("Retrieve page data", paramsItem.page);
               // console.log("Get data", rspCallPage.data.items);
-              
+
               if (pushToDB) {
                 let dbitems = [];
                 if (endpoint === EZY_ENP_INVOICELINE) {
@@ -874,7 +784,7 @@ export default function Home() {
                       }
                     });
                   }
-                  itemsNonExisting += savingDBItems.length 
+                  itemsNonExisting += savingDBItems.length;
                   if (savingDBItems.length !== 0) {
                     updateMessage(setMessage, `Ready to save page data`);
                     let success = false;
@@ -915,7 +825,7 @@ export default function Home() {
                       retry_save--;
                     }
                     if (success) {
-                      itemsSaved += savingDBItems.length
+                      itemsSaved += savingDBItems.length;
                       updateMessage(
                         setMessage,
                         `Success to Save the ${paramsItem.page}th page`
@@ -997,7 +907,7 @@ export default function Home() {
             retry--;
           }
           if (success) {
-            itemsFiltered += filteredCountOneParam
+            itemsFiltered += filteredCountOneParam;
             updateMessage(
               setMessage,
               `Success to Get and Process the ${paramsItem.page}th page.`
@@ -1010,10 +920,9 @@ export default function Home() {
             );
             failPageCount++;
           }
-          
         }
-      }
-      const handlePulseAPISubmit =async () =>{
+      };
+      const handlePulseAPISubmit = async () => {
         let bearer_token;
         bearer_token = `${localStorage.getItem(PULSE_TOKEN)}`;
 
@@ -1274,20 +1183,20 @@ export default function Home() {
           setMessage,
           `Successful  Pages:${successPageCount}, Failed Pages: ${failPageCount}`
         );
-      }
+      };
       if (status === STATUS_PAUSE) {
         setStatus(STATUS_RESUME);
       } else {
         // init variables
-        initSubmitVariables()
+        initSubmitVariables();
         setStatus(STATUS_START);
       }
 
       setLoading(true);
       const checkToken = await tokenCheck();
       if (!checkToken) {
-        console.log("Passhere")
-        setStatus(STATUS_STOP)
+        console.log("Passhere");
+        setStatus(STATUS_STOP);
         setLoading(false);
         return;
       }
@@ -1299,18 +1208,17 @@ export default function Home() {
       );
 
       if (apiUrl === EZY_VET_API) {
-        await handleEzyVetAPISubmit()
+        await handleEzyVetAPISubmit();
       }
       if (apiUrl === PULSE_API) {
-        await handlePulseAPISubmit()
+        await handlePulseAPISubmit();
       }
 
       setLoading(false);
       setStatus(STATUS_COMPLETE);
-      showStatusMessage()
+      showStatusMessage();
       //updateMessage(setMessage, `Idle mode will activate in 3 seconds.`);
       //await delay(3000);
-      
     } catch (error: any) {
       setLoading(false);
       if (error.message === THROW_APP_STOP) {
@@ -1321,7 +1229,7 @@ export default function Home() {
         updateMessage(setMessage, `Failed!: ${error.message}`);
       }
       setStatus(STATUS_STOP);
-      showStatusMessage()
+      showStatusMessage();
     }
   };
 

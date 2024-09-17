@@ -1,4 +1,4 @@
-export const VIZVET_APP_VERSION = "0.2.1";
+export const VIZVET_APP_VERSION = "0.2.2";
 export const EZY_VET_API = "ezyvet";
 export const PULSE_API = "pulse";
 
@@ -59,7 +59,9 @@ export const QUARTER_4 = 4;
 
 export const ITEM_MAX_LIMIT = 200;
 export const RETRY_COUNT = 5;
+
 export const STORAGE_EZY_ENV_CLIENT_NAME = "ezy_env_clientName";
+export const STORAGE_EZY_ENV_ACCOUNT_ID = "ezy_env_accountId";
 export const STORAGE_EZY_ENV_PARTNERID = "ezy_env_partnerId";
 export const STORAGE_EZY_ENV_CLIENTID = "ezy_env_clientId";
 export const STORAGE_EZY_ENV_CLIENTSECRET = "ezy_env_clientSecret";
@@ -71,6 +73,7 @@ export const STORAGE_EZY_INVOICE_JOIN = "ezy_invoice_join";
 export const STORAGE_EZY_ACCOUNTS = "ezy_accounts";
 
 export const STORAGE_PULSE_ENV_CLIENT_NAME = "puls_env_clientName";
+export const STORAGE_PULSE_ENV_ACCOUNT_ID = "puls_env_accountId";
 export const STORAGE_PULSE_ENV_USERNAME = "puls_env_username";
 export const STORAGE_PULSE_ENV_PASSWORD = "puls_env_password";
 export const STORAGE_PULSE_ENV_INSTALLATION = "puls_env_installation";
@@ -136,7 +139,7 @@ export const EZY_CALL_PAGE_API_URL = "/api/third-party/ezy-vet/call-page";
 export const STORE_STATUS = "app_status";
 export const STATUS_IDLE = "idle";
 export const STATUS_START = "start";
-export const STATUS_COMPLETE = "complete"
+export const STATUS_COMPLETE = "complete";
 export const STATUS_RESUME = "resume";
 export const STATUS_PAUSE = "pause";
 export const STATUS_STOP = "stop";
@@ -149,5 +152,6 @@ export const EZY_TIME_ZONE_API_URL = `/api/third-party/ezy-vet/get-timezone`;
 export const PULSE_TIME_ZONE_API_URL = `/api/third-party/pulse/get-timezone`;
 
 export const DEFAULT_ACCOUNT = "Default";
+export const DEFAULT_ACCOUNT_ID = "Default";
 
 export const THROW_APP_STOP = "AppStop";

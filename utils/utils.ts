@@ -1,12 +1,11 @@
 import {
   DEFAULT_ACCOUNT,
-  DEFAULT_ACCOUNT_ID_DEV,
+  DEFAULT_ACCOUNT_ID,
   EZY_VET_API,
   INVOICELINE_STATUS_FILALISED,
   PULSE_API,
-  STORAGE_EZY_ENV_CLIENT_NAME,
-  STORAGE_PULSE_ENV_CLIENT_NAME,
-  STORAGE_SQLSRV_ACCOUNT_ID,
+  STORAGE_EZY_ENV_ACCOUNT_ID,
+  STORAGE_PULSE_ENV_ACCOUNT_ID,
 } from "./constants";
 
 export const getDate = (now: Date): any => {
@@ -177,6 +176,7 @@ export const defaultEzyAccounts = [
   {
     id: 0,
     clientName: DEFAULT_ACCOUNT,
+    clientAccountId: DEFAULT_ACCOUNT_ID,
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     grantType: process.env.GRANT_TYPE,
@@ -193,6 +193,7 @@ export const defaultPulseAccounts = [
   {
     id: 0,
     clientName: DEFAULT_ACCOUNT,
+    clientAccountId: DEFAULT_ACCOUNT_ID,
     userName: process.env.PULSE_USER_NAME,
     password: process.env.PULSE_PASSWORD,
     installation: process.env.PULSE_INSTALLATION,
@@ -202,26 +203,12 @@ export const defaultPulseAccounts = [
 export function getAccountId(apiType: any) {
   let accountId;
 
-  if (itemValue(STORAGE_SQLSRV_ACCOUNT_ID) === "") {
-    accountId = DEFAULT_ACCOUNT_ID_DEV;
-  } else {
-    accountId = itemValue(STORAGE_SQLSRV_ACCOUNT_ID);
-  }
-
   if (apiType === EZY_VET_API) {
-    const clientName = itemValue(STORAGE_EZY_ENV_CLIENT_NAME);
-
-    if (clientName !== DEFAULT_ACCOUNT) {
-      accountId = `${clientName}_${accountId}`;
-    }
+    accountId = itemValue(STORAGE_EZY_ENV_ACCOUNT_ID);
   }
 
   if (apiType === PULSE_API) {
-    const clientName = itemValue(STORAGE_PULSE_ENV_CLIENT_NAME);
-
-    if (clientName !== DEFAULT_ACCOUNT) {
-      accountId = `${clientName}_${accountId}`;
-    }
+    accountId = itemValue(STORAGE_PULSE_ENV_ACCOUNT_ID);
   }
 
   return accountId;

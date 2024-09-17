@@ -3,15 +3,13 @@ import {
   DEFAULT_PREFIX_PULSE,
   PREFIX_EZY,
   PREFIX_PULSE,
-  STORAGE_SQLSRV_ACCOUNT_ID,
   STORAGE_SQLSRV_ENV_DATABASE,
   STORAGE_SQLSRV_ENV_DATABASE_PULSE,
   STORAGE_SQLSRV_ENV_HOST,
   STORAGE_SQLSRV_ENV_PASSWORD,
   STORAGE_SQLSRV_ENV_PORT,
   STORAGE_SQLSRV_ENV_USERNAME,
-  STORAGE_SQLSRV_CHECK_EXIST_DB,
-  STORAGE_EZY_ENV_CLIENT_NAME,
+  STORAGE_SQLSRV_CHECK_EXIST_DB
 } from "@/utils/constants";
 import { ToggleSwitch } from "flowbite-react";
 import Collapse from "@/components/common/collapse";
@@ -34,7 +32,6 @@ const DBModal: FC<IProps> = ({ onClose }) => {
   const [sqlsrvPort, setSqlsrvPort] = useState("");
   const [prefixPulse, setPrefixPulse] = useState("");
   const [prefixEzy, setPrefixEzy] = useState("");
-  const [accountId, setAccountId] = useState("");
   const [checkExistDB, setCheckExistDB] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -55,7 +52,7 @@ const DBModal: FC<IProps> = ({ onClose }) => {
         ? DEFAULT_PREFIX_PULSE
         : itemValue(PREFIX_PULSE)
     );
-    setAccountId(itemValue(STORAGE_SQLSRV_ACCOUNT_ID));
+    
     setCheckExistDB(
       itemValue(STORAGE_SQLSRV_CHECK_EXIST_DB) === "false" ? false : true
     );
@@ -70,7 +67,6 @@ const DBModal: FC<IProps> = ({ onClose }) => {
     setSqlsrvPort("");
     setPrefixEzy("");
     setPrefixPulse("");
-    setAccountId("");
 
     setErrorMessage("");
   };
@@ -84,8 +80,7 @@ const DBModal: FC<IProps> = ({ onClose }) => {
       sqlsrvPulseDatabase === "" ||
       sqlsrvUsername === "" ||
       sqlsrvPassword === "" ||
-      sqlsrvPort === "" ||
-      accountId === ""
+      sqlsrvPort === ""
     ) {
       setErrorMessage(
         "Please provide information in all fields except prefix fields."
@@ -107,7 +102,6 @@ const DBModal: FC<IProps> = ({ onClose }) => {
         localStorage.setItem(PREFIX_EZY, prefixEzy);
         localStorage.setItem(PREFIX_PULSE, prefixPulse);
 
-        localStorage.setItem(STORAGE_SQLSRV_ACCOUNT_ID, accountId);
         localStorage.setItem(
           STORAGE_SQLSRV_CHECK_EXIST_DB,
           checkExistDB.toString()
@@ -219,11 +213,6 @@ const DBModal: FC<IProps> = ({ onClose }) => {
 
     if (e.target.name === "prefixPulse") {
       setPrefixPulse(e.target.value);
-    }
-
-    if (e.target.name === "accountId") {
-      const { value } = e.target;
-      setAccountId(value);
     }
 
     setErrorMessage("");
@@ -403,23 +392,6 @@ const DBModal: FC<IProps> = ({ onClose }) => {
                     onChange={handleChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Pulse Table Prefix"
-                  />
-                </div>
-                <div className="col-span-2">
-                  <label
-                    htmlFor="name"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Account ID
-                  </label>
-                  <input
-                    type="text"
-                    name="accountId"
-                    id="accountId"
-                    value={accountId}
-                    onChange={handleChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="AccountId"
                   />
                 </div>
                 <div className="col-span-2">
