@@ -1,13 +1,13 @@
 "use server";
 import sql from "mssql";
 
-let pool: sql.ConnectionPool | undefined;
+let poolPulse: sql.ConnectionPool | undefined;
 
 export async function getConnection(
   config: any,
   useLocalEvn: boolean
 ): Promise<sql.ConnectionPool> {
-  if (!pool) {
+  if (!poolPulse) {
     try {
       let myConfig: sql.config;
       if (useLocalEvn) {
@@ -40,20 +40,23 @@ export async function getConnection(
         };
       }
 
-      pool = await sql.connect(myConfig);
-      console.log("Connected to SQL Server");
+      poolPulse = await sql.connect(myConfig);
+
+      console.log("PULSE DB config", myConfig);
+      console.log("Connected to SQL Server PULSE DB");
     } catch (err) {
       console.error("Database connection failed: ", err);
       throw err;
     }
   }
-  return pool;
+  return poolPulse;
 }
 
 export async function closeConnection(): Promise<void> {
   try {
-    if (pool) {
-      await pool.close();
+    if (poolPulse) {
+      await poolPulse.close();
+      poolPulse = undefined;
     }
   } catch (err) {
     console.error("Error closing connection: ", err);

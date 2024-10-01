@@ -1,6 +1,6 @@
 import { getConnection } from "@/utils/server/db_pulse";
+import { closeConnection } from "@/utils/server/db_ezyvet";
 import { escapeSQL } from "@/utils/utils";
-import sql from "mssql";
 
 export async function POST(request: Request) {
   const { content, config, useLocalEvn, prefix, accountId } =
@@ -16,6 +16,7 @@ export async function POST(request: Request) {
   const tableName = `${prefix}clients`;
 
   try {
+    closeConnection();
     const pool = await getConnection(config, useLocalEvn);
 
     //Batching Inserts

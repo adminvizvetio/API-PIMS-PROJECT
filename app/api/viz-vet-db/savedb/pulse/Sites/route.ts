@@ -1,4 +1,5 @@
 import { getConnection } from "@/utils/server/db_pulse";
+import { closeConnection } from "@/utils/server/db_ezyvet";
 import { escapeSQL } from "@/utils/utils";
 
 export async function POST(request: Request) {
@@ -15,6 +16,7 @@ export async function POST(request: Request) {
   const tableName = `${prefix}sites`;
 
   try {
+    closeConnection();
     const pool = await getConnection(config, useLocalEvn);
 
     //Batching Inserts

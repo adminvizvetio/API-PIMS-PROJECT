@@ -1,5 +1,5 @@
 import { getConnection } from "@/utils/server/db_ezyvet";
-import sql from "mssql";
+import { closeConnection } from "@/utils/server/db_pulse";
 import { escapeSQL } from "@/utils/utils";
 export const maxDuration = 300; // pro version in vercel
 
@@ -17,6 +17,7 @@ export async function POST(request: Request) {
   const tableName = `${prefix}invoice_lines`;
 
   try {
+    closeConnection();
     const pool = await getConnection(config, useLocalEvn);
 
     //Batching Inserts

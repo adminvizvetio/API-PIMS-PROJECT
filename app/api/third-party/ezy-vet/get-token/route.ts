@@ -28,7 +28,7 @@ export async function POST(request: Request) {
 
     return Response.json({ ...response.data });
   } catch (error) {
-    console.log("error");
+    console.log("error-ezy-vet toke");
     return Response.json({ error }, { status: 400, statusText: "" });
   }
 }

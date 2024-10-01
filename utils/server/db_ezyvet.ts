@@ -1,13 +1,13 @@
 "use server";
 import sql from "mssql";
 
-let pool: sql.ConnectionPool | undefined;
+let poolEzy: sql.ConnectionPool | undefined;
 
 export async function getConnection(
   config: any,
   useLocalEvn: boolean
 ): Promise<sql.ConnectionPool> {
-  if (!pool) {
+  if (!poolEzy) {
     try {
       let myConfig: sql.config;
       if (useLocalEvn) {
@@ -40,24 +40,25 @@ export async function getConnection(
         };
       }
 
-      pool = await sql.connect(myConfig);
-      console.log("Connected to SQL Server");
+      poolEzy = await sql.connect(myConfig);
+
+      console.log("EZYVET DB config", myConfig);
+      console.log("Connected to SQL Server EZYVET DB");
     } catch (err) {
       console.error("Database connection failed: ", err);
       throw err;
     }
   }
-  return pool;
+  return poolEzy;
 }
 
 export async function closeConnection(): Promise<void> {
   try {
-    if (pool) {
-      await pool.close();
+    if (poolEzy) {
+      await poolEzy.close();
+      poolEzy = undefined;
     }
   } catch (err) {
     console.error("Error closing connection: ", err);
   }
 }
-
-

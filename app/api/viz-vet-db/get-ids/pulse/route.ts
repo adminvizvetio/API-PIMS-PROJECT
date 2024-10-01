@@ -8,6 +8,7 @@ import {
   PULSE_ENP_SITES,
   PULSE_ENP_TRANSACTIONS,
 } from "@/utils/constants";
+import { closeConnection } from "@/utils/server/db_ezyvet";
 import { getConnection } from "@/utils/server/db_pulse";
 import { getNextDay, setTimeToMidnight } from "@/utils/utils";
 export const maxDuration = 300; // pro version in vercel
@@ -25,6 +26,7 @@ export async function POST(request: Request) {
   } = await request.json();
 
   try {
+    closeConnection();
     const pool = await getConnection(config, useLocalEvn);
 
     let tableName;

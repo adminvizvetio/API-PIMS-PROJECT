@@ -1,4 +1,5 @@
 import { getConnection } from "@/utils/server/db_pulse";
+import { closeConnection } from "@/utils/server/db_ezyvet";
 import { escapeSQL, escapeSQLWithLimitLength } from "@/utils/utils";
 
 export async function POST(request: Request) {
@@ -15,6 +16,7 @@ export async function POST(request: Request) {
   const tableName = `${prefix}transactions`;
 
   try {
+    closeConnection();
     const pool = await getConnection(config, useLocalEvn);
 
     //Batching Inserts
@@ -58,7 +60,7 @@ export async function POST(request: Request) {
       .join(",");
 
     let query = `INSERT INTO ${tableName} (pulse_id, type, client_id, client_pms_id, patient_id, patient_pms_id, transaction_date, sequence, code, code_id, description, quantity, amount, discount_amount, provider_id, provider_name, entered_by_id, is_payment, is_posted, is_voided, is_depletion_only, is_hidden_on_invoice, comments, invoice_id, invoice_number, site_id, dbid, api_create_date, api_last_change_date, api_removed_date, installation_id, account_id, inserted_at) VALUES ${values}`;
-    console.log('query', query)
+    console.log("query", query);
     const result = await pool.request().query(query);
     // console.log("result", result);
     // console.log("Data inserted successfully");

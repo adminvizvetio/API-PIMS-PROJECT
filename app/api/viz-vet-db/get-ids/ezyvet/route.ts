@@ -11,6 +11,7 @@ import {
   EZY_ENP_SPECIES,
   FILTER_BY_DATE_ALL,
 } from "@/utils/constants";
+import { closeConnection } from "@/utils/server/db_pulse";
 import { getConnection } from "@/utils/server/db_ezyvet";
 import { getNextDay, dateToSQLTime, setTimeToMidnight } from "@/utils/utils";
 export const maxDuration = 300; // pro version in vercel
@@ -28,6 +29,7 @@ export async function POST(request: Request) {
   } = await request.json();
 
   try {
+    closeConnection();
     const pool = await getConnection(config, useLocalEvn);
 
     let tableName;

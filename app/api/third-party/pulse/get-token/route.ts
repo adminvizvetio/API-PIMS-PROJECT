@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
     return Response.json({ ...response.data });
   } catch (error) {
-    console.log("error", error);
+    console.log("error pulse token");
     return Response.json({ error }, { status: 400, statusText: "" });
   }
 }
