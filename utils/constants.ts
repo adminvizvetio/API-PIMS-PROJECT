@@ -1,4 +1,4 @@
-export const VIZVET_APP_VERSION = "0.2.2";
+export const VIZVET_APP_VERSION = "0.2.3";
 export const EZY_VET_API = "ezyvet";
 export const PULSE_API = "pulse";
 
