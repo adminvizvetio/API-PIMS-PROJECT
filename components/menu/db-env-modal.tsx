@@ -54,7 +54,7 @@ const DBModal: FC<IProps> = ({ onClose }) => {
     );
     
     setCheckExistDB(
-      itemValue(STORAGE_SQLSRV_CHECK_EXIST_DB) === "false" ? false : true
+      itemValue(STORAGE_SQLSRV_CHECK_EXIST_DB) === "true" || itemValue(STORAGE_SQLSRV_CHECK_EXIST_DB) === "" ? true : false
     );
   }, []);
 

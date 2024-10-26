@@ -1201,7 +1201,7 @@ export default function Home() {
         return;
       }
       const settingCheckExistDB =
-        itemValue(STORAGE_SQLSRV_CHECK_EXIST_DB) === "true" ? true : false;
+        itemValue(STORAGE_SQLSRV_CHECK_EXIST_DB) === "true" || itemValue(STORAGE_SQLSRV_CHECK_EXIST_DB) === "" ? true : false;
       updateMessage(
         setMessage,
         `Ready to get data page of ${endpoint}, Filter by date: ${byDate}, Check Existing DB: ${settingCheckExistDB}, Save to DB: ${pushToDB}`
